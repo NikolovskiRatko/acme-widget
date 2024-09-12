@@ -10,6 +10,7 @@ use App\Applications\Product\Repositories\IProductRepository;
 class ProductService implements IProductService
 {
     const ALLOWED_PROPERTIES = ['name', 'code', 'price'];
+    protected IProductRepository $productRepository;
 
     public function __construct(
         IProductRepository $productRepository

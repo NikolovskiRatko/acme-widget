@@ -48,8 +48,9 @@ class ProductController extends Controller
      */
     public function create(ProductRequest $request){
         $data = $this->productService->filterAllowedProperties($request);
+        $product = $this->productService->create($data);
         // TODO: Prepare formatted Response
-        return $this->productService->create($data)->toJson();
+        return response()->json($product, 201);
     }
 
     /**
