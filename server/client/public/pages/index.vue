@@ -24,12 +24,34 @@ const addToCart = (product) => {
   }
 };
 
-// Calculate total price
+// Calculate total price including delivery and offers
 const calculateTotalPrice = () => {
   let total = 0;
+  let redWidgetCount = 0;
+
+  // Calculate product totals and count Red Widgets
   cart.value.forEach(item => {
-    total += item.price * item.quantity;
+    if (item.code === 'R01') {
+      redWidgetCount += item.quantity;
+    } else {
+      total += item.price * item.quantity;
+    }
   });
+
+  // Apply "Buy One Red Widget, Get the Second Half Price" offer
+  if (redWidgetCount > 0) {
+    const fullPriceRedWidgets = Math.floor(redWidgetCount / 2) + (redWidgetCount % 2);
+    const halfPriceRedWidgets = Math.floor(redWidgetCount / 2);
+    total += fullPriceRedWidgets * 32.95 + halfPriceRedWidgets * (32.95 / 2);
+  }
+
+  // Apply delivery costs based on total price
+  if (total < 50) {
+    total += 4.95;
+  } else if (total < 90) {
+    total += 2.95;
+  }
+
   return total.toFixed(2);
 };
 </script>
